@@ -1,0 +1,14 @@
+Players start with N rovers on a large grid map.
+The aim of the game is to write a program to move the rovers over the map, coloring tiles to your color.
+
+Win conditions could be:
+	Most tiles owned in a time limit
+	Own all the tiles
+	Destroy all the enemy rovers
+
+Rovers can move over tiles, and may change the color of tile they are on to own the tile.
+Changing the color of tiles owned by the enemy takes longer. First the tile must be changed to neutral, then to the players color.
+Rovers can attack enemy rovers
+Rovers get a speed and defensive bonus when on their own color
+Rovers can only attack one target at a time
+Rovers get a speed and defensive penalty when on an enemies color
