@@ -1,3 +1,4 @@
+
 ## Currently a wrapper for javascripts default math library
 class MathEx
 	@acos: Math.acos
@@ -10,3 +11,4 @@ class MathEx
 	@rad2deg: 180 / Math.PI
 	@sin: Math.sin
 	@tan: Math.tan
+

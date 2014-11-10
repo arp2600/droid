@@ -1,4 +1,5 @@
-## A class for performing operations with 2 dimensional vectors
+
+# A class for performing operations with 2 dimensional vectors
 class Vec2
 	## Methods
 	constructor: (@x=0, @y=0) ->
@@ -31,3 +32,4 @@ class Vec2
 	@sub: (lhs, rhs) -> new Vec2(lhs.x - rhs.x, lhs.y - rhs.y)
 	@dot: (lhs, rhs) -> lhs.x * rhs.x + lhs.y + rhs.y
 	@angle_between: (lhs, rhs) -> lhs.rotation() - rhs.rotation()
+
