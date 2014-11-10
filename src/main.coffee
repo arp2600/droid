@@ -51,26 +51,46 @@ class Vec2
 	@dot: (lhs, rhs) -> lhs.x * rhs.x + lhs.y + rhs.y
 	@angle_between: (lhs, rhs) -> lhs.rotation() - rhs.rotation()
 
+# Return the time
 class Time
 	@get_time: ->
 		new Date().getTime()
+	@start = new Date().getTime()
+
+class FPSWidget
+	constructor: (@pos) ->
+		@text = TextRenderObj.create(@pos.x, @pos.y, "FPS: ", null, null, 9)
+		@frames = 0
+		@update_display()
+	update: ->
+		@frames++
+		@update_display() if Time.get_time() - @start > 1000
+	update_display: ->
+		@text.text = "FPS: " + @frames
+		@frames = 0
+		@start = Time.get_time()
 
 class window.Game
 	constructor: ->
 		@canvas = new Canvas(650, 400, "#000")
 
 		Renderer.init()
+		@fps_widget = new FPSWidget(new Vec2(10, 30))
 
 		@balls = [
-			new Ball 1, new Vec2(10, 10), new Vec2(20, 20), "#F00"
-			new Ball 3, new Vec2(50, 30), new Vec2(30, 10), "#0F0"
-			new Ball 2, new Vec2(30, 50), new Vec2(10, 30), "#00F"
+			new Ball 5, new Vec2(10, 10), new Vec2(20, 20), "#F00"
+			new Ball 5, new Vec2(50, 30), new Vec2(30, 10), "#0F0"
+			new Ball 5, new Vec2(30, 50), new Vec2(10, 30), "#00F"
+			new Ball 5, new Vec2(40, 10), new Vec2(25, 25), "#F00"
+			new Ball 5, new Vec2(50, 20), new Vec2(35, 15), "#0F0"
+			new Ball 5, new Vec2(30, 80), new Vec2(15, 35), "#00F"
 		]
 
 		@loop() # Enter the game loop
 
 	# The main game loop
 	loop: =>
+		@fps_widget.update()
 		ball.update() for ball in @balls
 		Renderer.fetch().render(@canvas)
 		setTimeout @loop, 20
@@ -149,7 +169,7 @@ class Renderer
 		# cycle through the render layers and draw all the objects
 		for layer in @layers
 			for obj in layer
-				obj.draw(canvas.context) if obj.visible
+				obj.draw(canvas.context) if obj.is_visible()
 		0
 
 	# Static methods
@@ -161,11 +181,12 @@ class RenderObj
 		Renderer.fetch().remove_obj(@)
 	add_to_renderer: (obj, layer) ->
 		Renderer.fetch().add_obj_to_layer obj, layer
+	is_visible: ->
+		if @visible? then @visible else true
 
 # A circle render object
 class CircleRenderObj extends RenderObj
 	constructor: (@x, @y, @radius, @color) ->
-		@visible = true
 	@create: (x=0, y=0, radius=10, color="#F0F", layer=0) ->
 		obj = new CircleRenderObj x, y, radius, color
 		obj.add_to_renderer obj, layer
@@ -181,7 +202,6 @@ class CircleRenderObj extends RenderObj
 # A rectangle render object
 class RectRenderObj extends RenderObj
 	constructor: (@x, @y, @width, @height, @color) ->
-		@visible = true
 	@create: (x, y, width, height, color, layer=0) ->
 		obj = new RectRenderObj x, y, width, height, color
 		obj.add_to_renderer obj, layer
@@ -189,3 +209,18 @@ class RectRenderObj extends RenderObj
 	draw: (context) ->
 		context.fillStyle = @color
 		context.fillRect @x, @y, @width, @height
+
+class TextRenderObj extends RenderObj
+	constructor: (@x, @y, @text, @color, @font)->
+		@font = TextRenderObj.default_font unless @font
+		@color = TextRenderObj.default_color unless @color
+	@create: (x, y, text, color, font, layer=0) ->
+		obj = new TextRenderObj(x, y, text, color, font)
+		obj.add_to_renderer obj, layer
+		obj
+	draw: (context) ->
+		context.font = @font
+		context.fillStyle = @color
+		context.fillText(@text, @x, @y)
+	@default_font: "20px monaco"
+	@default_color: "#0F0"
