@@ -1,7 +1,7 @@
 
 class FPSWidget
 	constructor: (@pos) ->
-		@text = TextRenderObj.create(@pos.x, @pos.y, "FPS: ", null, null, 9)
+		@text = TextRenderObj.create(@pos, "FPS: ", null, null, 9)
 		@frames = 0
 		@update_display()
 	update: ->
