@@ -1,6 +1,6 @@
 class Ball
 	constructor: (@life_span, @pos, @vel, @color) ->
-		@renderer = CircleRenderObj.create @pos.x, @pos.y, 20, @color, 5
+		@renderer = CircleRenderObj.create @pos.x, @pos.y, 1, @color, 5
 		@age = Time.get_time()
 	update: ->
 		if Time.get_time() - @age > @life_span*1000

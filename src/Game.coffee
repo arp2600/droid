@@ -8,13 +8,29 @@ class window.Game
 		@camera_control = new CameraControl(@canvas)
 
 		@balls = [
-			new Ball 5, new Vec2(10, 10), new Vec2(20, 20), "#F00"
-			new Ball 5, new Vec2(50, 30), new Vec2(30, 10), "#0F0"
-			new Ball 5, new Vec2(30, 50), new Vec2(10, 30), "#00F"
-			new Ball 5, new Vec2(40, 10), new Vec2(25, 25), "#F00"
-			new Ball 5, new Vec2(50, 20), new Vec2(35, 15), "#0F0"
-			new Ball 5, new Vec2(30, 80), new Vec2(15, 35), "#00F"
+			new Ball 5, new Vec2(0, 0), new Vec2(0, 0), "#F00"
 		]
+
+		# This view tranformation: 
+		# places the origin in the center of the canvas, 
+		# makes positive y up and negative down
+		# makes the canvas 1 unit high and canvas height / canvas width units wide
+		view = new Mat3X3()
+		view.scale(1, -1)
+		view.translate(@canvas.width*0.5, @canvas.height*0.5)
+		view.scale(@canvas.height*0.5, @canvas.height*0.5)
+		view.scale(1, 1)
+
+		# This transform moves objects about the scene
+		model = new Mat3X3()
+		#model.translate(100, 0)
+		#model.rotate(3.14)
+		#model.scale(-1, 1)
+
+		# This merges the transform
+		model_view = Mat3X3.mul(view, model)
+
+		@canvas.context.setTransform(model_view.mat[0], model_view.mat[3], model_view.mat[1], model_view.mat[4], model_view.mat[2], model_view.mat[5])
 
 		@loop() # Enter the game loop
 
