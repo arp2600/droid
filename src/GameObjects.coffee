@@ -1,13 +1,8 @@
 class Ball
-	constructor: (@life_span, @pos, @vel, @color) ->
+	constructor: (@pos, @vel, @color) ->
 		@renderer = CircleRenderObj.create @pos, 1, @color, 5
-		@age = Time.get_time()
+		@rigidbody = new Rigidbody(@pos, @vel)
+		@rigidbody.drag = 0.25
 	update: ->
-		if Time.get_time() - @age > @life_span*1000
-			if @renderer?
-				@renderer.remove_self()
-				@renderer = null
-			return
-
 		t = 0.1
-		@pos = Vec2.add @pos, Vec2.mul @vel, new Vec2 t,t
+		@rigidbody.update()

@@ -7,9 +7,9 @@ class window.Game
 		@camera_control = new CameraControl(@canvas)
 
 		@balls = [
-			new Ball 60, new Vec2(0, 0), new Vec2(0, 0), "#F00"
-			new Ball 60, new Vec2(3, 0), new Vec2(0, 0), "#0F0"
-			new Ball 60, new Vec2(0, -3), new Vec2(0, 0), "#00F"
+			new Ball new Vec2(0, 0), new Vec2(7, -3), "#F00"
+			new Ball new Vec2(3, 0), new Vec2(-5, 5), "#0F0"
+			new Ball new Vec2(0, -3), new Vec2(5, 5), "#00F"
 		]
 
 		Renderer.transforms[0].scale(0.1, 0.1)
