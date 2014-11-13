@@ -2,6 +2,8 @@
 class Mat3X3
 	constructor: ->
 		@mat = [1, 0, 0, 0, 1, 0, 0, 0, 1]
+	copy: (mat) ->
+		@mat[i] = item for item, i in mat.mat
 	load_identity: ->
 		@mat = [1, 0, 0, 0, 1, 0, 0, 0, 1]
 	# Multiply two matrices
