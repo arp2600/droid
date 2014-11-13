@@ -9,6 +9,13 @@ class Ball
 class Droid
 	constructor: (@pos, @color) ->
 		@renderer = CircleRenderObj.create(@pos, 1, @color, 5)
+		@renderer.filled = false
+		@renderer.line_width = 0.2
+
+		@test = RectRenderObj.create(@pos, 1, 2, @color, 6)
+		@test.filled = false
+		@test.line_width = 0.1
+
 		@rigidbody = new Rigidbody(@pos, new Vec2(0, 0))
 		@rigidbody.drag = 0.25
 		@timer = new Timer()

@@ -83,28 +83,44 @@ class RenderObj
 # A circle render object
 class CircleRenderObj extends RenderObj
 	constructor: (@pos, @radius, @color) ->
+		@filled = true
+		@line_width = 1
 	@create: (pos=new Vec2(), radius=10, color="#F0F", layer=0) ->
 		obj = new CircleRenderObj pos, radius, color
 		obj.add_to_renderer obj, layer
 		obj
 	draw: (context) ->
-		context.fillStyle = @color
+		if @filled
+			context.fillStyle = @color
+		else
+			context.strokeStyle = @color
+			context.lineWidth = @line_width
+
 		context.beginPath()
 		context.arc 0, 0, @radius, 0, 2*MathEx.pi
-		context.fill()
+		if @filled then context.fill()
+		else context.stroke()
 	remove_self: ->
 		Renderer.remove_obj(@)
 
 # A rectangle render object
 class RectRenderObj extends RenderObj
 	constructor: (@pos, @width, @height, @color) ->
-	@create: (x, y, width, height, color, layer=0) ->
-		obj = new RectRenderObj x, y, width, height, color
+		@filled = true
+		@line_width = 1
+	@create: (pos, width, height, color, layer=0) ->
+		obj = new RectRenderObj pos, width, height, color
 		obj.add_to_renderer obj, layer
 		obj
 	draw: (context) ->
-		context.fillStyle = @color
-		context.fillRect @x, @y, @width, @height
+		if @filled
+			context.fillStyle = @color
+			context.fillRect 0, 0, @width, @height
+		else
+			context.strokeStyle = @color
+			context.lineWidth = @line_width
+			context.strokeRect 0, 0, @width, @height
+
 
 class TextRenderObj extends RenderObj
 	constructor: (@pos, @text, @color, @font)->
