@@ -14,7 +14,7 @@ class Droid
 		@timer = new Timer()
 		@movement = new Vec2(0,0)
 	update: ->
-		if @timer.elapsed_time() > 250
+		if @timer.elapsed_time() > -1
 			@movement = new Vec2(0,0)
 			@movement.x += 1 if Input.get_key('L')
 			@movement.x -= 1 if Input.get_key('J')
@@ -22,7 +22,7 @@ class Droid
 			@movement.y += 1 if Input.get_key('I')
 			if @movement.mag() > 0.1
 				@movement.normalize()
-				@movement.scale(2, 2)
+				@movement.scale(20, 20)
 			@timer.start()
 		@rigidbody.add_force(@movement)
 		@rigidbody.update()

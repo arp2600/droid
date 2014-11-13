@@ -16,6 +16,7 @@ class window.Game
 
 	# The main game loop
 	loop: =>
+		Time.update()
 		object.update() for object in @objects
 		Renderer.render()
 		setTimeout @loop, 0

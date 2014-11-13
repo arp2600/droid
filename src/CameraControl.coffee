@@ -1,19 +1,21 @@
 
 class CameraControl
 	constructor: () ->
-		@translate_speed = 10
-		@zoom_speed = 1.05
+		@translate_speed = 300
+		@zoom_speed = 2
 		@center = new Vec2()
 
 	update: ->
 		should_transform = false
 
-		zoom = 1
-		zoom *= @zoom_speed if Input.get_key('Q')
-		zoom /= @zoom_speed if Input.get_key('E')
+		zoom = 0
+		zoom += @zoom_speed if Input.get_key('Q')
+		zoom -= @zoom_speed if Input.get_key('E')
 
-		if zoom isnt 1
+		if zoom isnt 0
 			Renderer.transforms[0].translate(-@center.x, -@center.y)
+			zoom *= Time.delta_time
+			zoom += 1
 			Renderer.transforms[0].scale(zoom, zoom)
 			@center.scale(zoom, zoom)
 			Renderer.transforms[0].translate(@center.x, @center.y)
@@ -26,7 +28,7 @@ class CameraControl
 
 		if movement.mag() > 0.1
 			movement.normalize()
-			movement.scale(@translate_speed, @translate_speed)
+			movement.scale(@translate_speed * Time.delta_time, @translate_speed * Time.delta_time)
 			Renderer.transforms[0].translate(movement.x, movement.y)
 			@center = Vec2.add(@center, movement)
 
