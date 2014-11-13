@@ -3,14 +3,12 @@ class window.Game
 	constructor: ->
 		Renderer.init(650, 400, "#000000")
 
+		@objects = []
 		@fps_widget = new FPSWidget(new Vec2(0, Renderer.height - 20))
-		@camera_control = new CameraControl(@canvas)
+		@objects.push(@fps_widget)
+		@objects.push(new CameraControl())
 
-		@balls = [
-			new Ball new Vec2(0, 0), new Vec2(7, -3), "#F00"
-			new Ball new Vec2(3, 0), new Vec2(-5, 5), "#0F0"
-			new Ball new Vec2(0, -3), new Vec2(5, 5), "#00F"
-		]
+		@objects.push(new Droid(new Vec2(0, 0), "#0F0"))
 
 		Renderer.transforms[0].scale(0.1, 0.1)
 
@@ -18,9 +16,7 @@ class window.Game
 
 	# The main game loop
 	loop: =>
-		@fps_widget.update()
-		ball.update() for ball in @balls
-		@camera_control.update()
+		object.update() for object in @objects
 		Renderer.render()
 		setTimeout @loop, 20
 

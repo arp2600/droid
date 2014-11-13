@@ -1,6 +1,6 @@
 
 class CameraControl
-	constructor: (@canvas) ->
+	constructor: () ->
 		@translate_speed = 10
 		@zoom_speed = 1.05
 
