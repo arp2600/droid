@@ -9,7 +9,9 @@ class Vec2
 		else @x *= x.x; @y *= x.y
 	normalize: ->
 		mag = @mag()
-		@x = @x/mag; @y = @y/mag
+		if mag > 0.0001
+			@x = @x/mag
+			@y = @y/mag
 		mag
 	rotate: (radians) ->
 		sin = MathEx.sin(radians)

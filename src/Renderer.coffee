@@ -66,11 +66,6 @@ class Renderer
 		for layer, i in @layers
 			view = @transforms[i]
 			for obj in layer
-				###
-				model_view = @create_model_view(obj, view)
-				mat = model_view.mat
-				@context.setTransform(mat[0], mat[3], mat[1], mat[4], mat[2], mat[5])
-				###
 				@render_object(obj, view)
 		0
 	
@@ -78,7 +73,7 @@ class Renderer
 		model_view = @create_model_view(obj, transform)
 		mat = model_view.mat
 		@context.setTransform(mat[0], mat[3], mat[1], mat[4], mat[2], mat[5])
-		obj.draw(@context) if obj.is_visible()
+		obj.draw(@context)
 		if obj?.children
 			@render_object(child, model_view) for child in obj.children
 

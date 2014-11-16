@@ -1,14 +1,12 @@
 
 class window.Game
 	constructor: ->
-		Renderer.init(650, 400, "#000000")
+		Renderer.init(document.body.clientWidth - 50, window.innerHeight - 50, "rgba(59,59,59,1)")
 
 		@objects = []
-		@fps_widget = new FPSWidget(new Vec2(0, Renderer.height - 20))
-		@objects.push(@fps_widget)
+		@objects.push(new FPSWidget(new Vec2(0, Renderer.height - 20)))
 		@objects.push(new CameraControl())
-
-		@objects.push(new Droid(new Vec2(0, 0), "#0F0"))
+		@objects.push(new Droid(new Vec2(0, 0)))
 
 		Renderer.transforms[0].scale(0.1, 0.1)
 
