@@ -3,6 +3,12 @@
 class Renderer
 	@add_obj_to_layer: (obj, layer) ->
 		@layers[layer].push obj
+	
+	@remove_obj_from_layer: (obj, layer) ->
+		for item, i in @layers[layer]
+			if obj is item
+				@layers[layer].splice(i, 1)
+				break
 
 	@create_model_view: (obj, view) ->
 		model = new Mat3X3()

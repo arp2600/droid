@@ -1,8 +1,10 @@
 
 class Droid
+	@droids = [] # A list of all the droids in the scene
+	@radius = 1
 	constructor: (@pos) ->
-		Renderer.add_obj_to_layer(@, 5)
-		@physics_timer = new Timer()
+		Droid.droids.push(@)
+		Renderer.add_obj_to_layer(@, RenderLayers.droid)
 		@vel = new Vec2(0,0)
 		@force = new Vec2(0,0)
 
@@ -12,21 +14,43 @@ class Droid
 		@iface = new DroidInterface()
 		@turret_rotation = 0
 
+		@turret_timer = new Timer()
+		@physics_timer = new Timer()
+		@iface_timer = new Timer()
+
+	fire_turret: ->
+		direction = new Vec2(0,Droid.radius + Projectile.radius) # Droid.radius + Projectile.radius draws the projectile outside the droid
+		direction.rotate(@turret_rotation)
+		pos = Vec2.add(@pos, direction)
+		vel = Vec2.mul(direction, new Vec2(10,10))
+		@force = Vec2.add(@force, Vec2.mul(direction, new Vec2(-100,-100)))
+		shell = new Projectile(pos, vel)
+		Game.add_object(shell)
+		@iface.fire_turret = false
+
 	update: ->
 		@update_physics()
 		@update_iface()
 
 		@turret_rotation -= @iface.turret_velocity * MathEx.deg2rad * Time.delta_time
 
+		if @turret_timer.elapsed_time() > 500 and @iface.fire_turret
+			@turret_timer.start()
+			@fire_turret()
+
 	update_iface: ->
-		@iface.update()
-		# Clamp values
-		@iface.turret_velocity = MathEx.clamp(@iface.turret_velocity, -180, 180)
-		if @iface.heading.mag() > 0
-			@iface.heading.normalize()
-		# Update interface value
-		@iface.velocity.set(@vel.x, @vel.y)
-		#@iface.rotation = (-@turret_rotation) * MathEx.rad2deg
+		if @iface_timer.elapsed_time() >= 100
+			@iface_timer.start()
+
+			# Update interface value
+			@iface.velocity = new Vec2(@vel.x, @vel.y)
+			@iface.turret_rotation = @turret_rotation
+
+			@iface.update(100)
+			# Clamp values
+			@iface.turret_velocity = MathEx.clamp(@iface.turret_velocity, -180, 180)
+			if @iface.heading.mag() > 1
+				@iface.heading.normalize()
 
 	update_physics: ->
 		if @physics_timer.elapsed_time() >= 10
@@ -44,9 +68,11 @@ class Droid
 	draw: (context) ->
 		context.lineWidth = 0.2
 		context.lineCap = "round"
-		context.strokeStyle = "rgb(132,162,132)"
+		context.strokeStyle = Colors.droid
+		context.fillStyle = Colors.background
 		context.beginPath()
-		context.arc 0, 0, 1, 0, 2*MathEx.pi
+		context.arc 0, 0, Droid.radius, 0, 2*MathEx.pi
+		context.fill()
 		context.stroke()
 
 		context.rotate(@turret_rotation)
