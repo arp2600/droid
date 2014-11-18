@@ -12,6 +12,7 @@ class Droid
 		@drag_force = 0.5
 
 		@iface = new DroidInterface()
+		Renderer.add_obj_to_layer(@iface, RenderLayers.droid_interface)
 		@turret_rotation = 0
 
 		@turret_timer = new Timer()
@@ -22,7 +23,7 @@ class Droid
 		direction = new Vec2(0,Droid.radius + Projectile.radius) # Droid.radius + Projectile.radius draws the projectile outside the droid
 		direction.rotate(@turret_rotation)
 		pos = Vec2.add(@pos, direction)
-		vel = Vec2.mul(direction, new Vec2(10,10))
+		vel = Vec2.add(@vel, Vec2.mul(direction, new Vec2(10,10)))
 		@force = Vec2.add(@force, Vec2.mul(direction, new Vec2(-100,-100)))
 		shell = new Projectile(pos, vel)
 		Game.add_object(shell)
@@ -32,7 +33,11 @@ class Droid
 		@update_physics()
 		@update_iface()
 
-		@turret_rotation -= @iface.turret_velocity * MathEx.deg2rad * Time.delta_time
+		@turret_rotation += @iface.turret_velocity * MathEx.deg2rad * Time.delta_time
+		while @turret_rotation <= MathEx.two_pi
+			@turret_rotation += MathEx.two_pi
+		while @turret_rotation >= MathEx.two_pi
+			@turret_rotation -= MathEx.two_pi
 
 		if @turret_timer.elapsed_time() > 500 and @iface.fire_turret
 			@turret_timer.start()
@@ -44,7 +49,16 @@ class Droid
 
 			# Update interface value
 			@iface.velocity = new Vec2(@vel.x, @vel.y)
-			@iface.turret_rotation = @turret_rotation
+			@iface.turret_rotation = 360 - (@turret_rotation * MathEx.rad2deg)
+			@iface.position.set(@pos.x, @pos.y)
+			@iface.blips = []
+			for droid in Droid.droids
+				continue if droid == @
+				dir = Vec2.sub(droid.pos, @pos)
+				if dir.mag() < 20
+					angle = -(MathEx.atan2(dir.y, dir.x)*MathEx.rad2deg - 90)
+					@iface.blips.push({distance:dir.mag(), angle:angle})
+
 
 			@iface.update(100)
 			# Clamp values
@@ -55,6 +69,7 @@ class Droid
 	update_physics: ->
 		if @physics_timer.elapsed_time() >= 10
 			dt = @physics_timer.elapsed_time()*0.001
+			dt = MathEx.min(0.02, dt)
 			dt = new Vec2(dt, dt)
 			@physics_timer.start()
 

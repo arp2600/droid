@@ -10,7 +10,7 @@ class Projectile
 		@lifetime_timer = new Timer()
 
 	update: ->
-		if @lifetime_timer.elapsed_time() > 1000
+		if @lifetime_timer.elapsed_time() > 3000
 			@remove_projectile()
 			return 0
 		@update_physics()

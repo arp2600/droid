@@ -9,6 +9,7 @@ class window.Game
 		@objects.push(new CameraControl())
 		@objects.push(new Droid(new Vec2(0, 0)))
 		@objects.push(new Droid(new Vec2(0, 10)))
+		@objects.push(new Droid(new Vec2(-5, 5)))
 
 		Renderer.transforms[0].scale(0.05, 0.05)
 

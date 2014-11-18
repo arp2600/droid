@@ -8,9 +8,14 @@ class MathEx
 	@cos: Math.cos
 	@deg2rad: Math.PI / 180
 	@pi: Math.PI
+	@two_pi: Math.PI*2
 	@rad2deg: 180 / Math.PI
 	@sin: Math.sin
 	@tan: Math.tan
 	
 	@clamp: (value, min=-1, max=1) ->
 		Math.max(min, Math.min(value, max))
+	@min = Math.min
+	@max = Math.max
+
+	@abs = Math.abs
