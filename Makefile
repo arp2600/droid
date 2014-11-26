@@ -4,5 +4,5 @@ all:
 	mv main.coffee.swp main.coffee
 	# Compile the program into javascript
 	coffee -c -o js/ main.coffee
-	# Open the program
-	# open index.html
+	# Compile index.haml to html
+	haml index.haml > index.html
