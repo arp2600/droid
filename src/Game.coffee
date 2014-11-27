@@ -11,7 +11,7 @@ class window.Game
 		@objects.push(new Droid(new Vec2(0, 10)))
 		@objects.push(new Droid(new Vec2(-5, 5)))
 
-		Renderer.transforms[0].scale(0.05, 0.05)
+		Renderer.transforms[0].scale(0.025, 0.025)
 
 		@loop() # Enter the game loop
 

@@ -20,8 +20,6 @@ class DroidInterface
 		@fire_turret = true if MathEx.abs(a) < 5
 
 		@heading = new Vec2()
-		@heading = Vec2.add(@heading, @brake())
-		@heading = Vec2.add(@heading, @hold_position(@maintain_pos))
 
 	# Stop the droid moving
 	brake: ->
@@ -46,19 +44,5 @@ class DroidInterface
 		dir
 
 	draw: (context) ->
-		if @maintain_pos?
-			context.strokeStyle = "#0F0"
-			context.lineWidth = 0.1
-			context.beginPath()
-			context.moveTo(@position.x,@position.y)
-			context.lineTo(@maintain_pos.x, @maintain_pos.y)
-			context.stroke()
-
-		context.lineWidth = 0.1
-		context.lineCap = "round"
-		context.strokeStyle = "#0F0"
-		context.beginPath()
-		context.arc -20, 5, 0.1, 0, 2*MathEx.pi
-		context.stroke()
 
 

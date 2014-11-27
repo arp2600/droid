@@ -23,7 +23,7 @@ class Droid
 		direction = new Vec2(0,Droid.radius + Projectile.radius) # Droid.radius + Projectile.radius draws the projectile outside the droid
 		direction.rotate(@turret_rotation)
 		pos = Vec2.add(@pos, direction)
-		vel = Vec2.add(@vel, Vec2.mul(direction, new Vec2(10,10)))
+		vel = Vec2.add(@vel, Vec2.mul(direction, new Vec2(25,25)))
 		@force = Vec2.add(@force, Vec2.mul(direction, new Vec2(-100,-100)))
 		shell = new Projectile(pos, vel)
 		Game.add_object(shell)
