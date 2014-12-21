@@ -1,17 +1,18 @@
 
 class window.Game
 	@start: ->
-		Renderer.init(document.body.clientWidth - 50, window.innerHeight - 50, Colors.background)
+		@renderer = new Renderer()
+		@renderer.init(document.body.clientWidth - 50, window.innerHeight - 50, Colors.background)
 
 		@delete_list = []
 		@objects = []
-		@objects.push(new FPSWidget(new Vec2(0, Renderer.height - 20)))
-		@objects.push(new CameraControl())
-		@objects.push(new Droid(new Vec2(0, 0)))
-		@objects.push(new Droid(new Vec2(0, 10)))
-		@objects.push(new Droid(new Vec2(-5, 5)))
+		@objects.push(new FPSWidget(@renderer, new Vec2(0, @renderer.height - 20)))
+		@objects.push(new CameraControl(@renderer))
+		@objects.push(new Droid(@renderer, new Vec2(0, 0)))
+		@objects.push(new Droid(@renderer, new Vec2(0, 10)))
+		@objects.push(new Droid(@renderer, new Vec2(-5, 5)))
 
-		Renderer.transforms[0].scale(0.025, 0.025)
+		@renderer.transforms[0].scale(0.025, 0.025)
 
 		@loop() # Enter the game loop
 
@@ -22,7 +23,7 @@ class window.Game
 
 		Game.purge_objects()
 
-		Renderer.render()
+		@renderer.render()
 		setTimeout Game.loop, 0
 
 	@add_object: (obj) ->

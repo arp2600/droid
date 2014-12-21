@@ -1,10 +1,10 @@
 
 class Projectile
 	@radius = 0.1
-	constructor: (pos, vel) ->
+	constructor: (@renderer, pos, vel) ->
 		@pos = new Vec2(pos.x, pos.y)
 		@vel = new Vec2(vel.x, vel.y)
-		Renderer.add_obj_to_layer(@, RenderLayers.projectile)
+		renderer.add_obj_to_layer(@, RenderLayers.projectile)
 		@physics_timer = new Timer()
 		@drag_force = 0.5
 		@lifetime_timer = new Timer()
@@ -32,7 +32,7 @@ class Projectile
 
 	remove_projectile: ->
 		Game.remove_object(@)
-		Renderer.remove_obj_from_layer(@, RenderLayers.projectile)
+		@renderer.remove_obj_from_layer(@, RenderLayers.projectile)
 
 	draw: (context) ->
 		context.lineWidth = @radius*2

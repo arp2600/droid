@@ -1,7 +1,7 @@
 
 class FPSWidget
-	constructor: (@pos) ->
-		Renderer.add_obj_to_layer(@, RenderLayers.ui_widgets)
+	constructor: (renderer, @pos) ->
+		renderer.add_obj_to_layer(@, RenderLayers.ui_widgets)
 		@frames = 0
 		@update_rate=500
 		@update_display()
