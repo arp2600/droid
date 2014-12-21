@@ -1,6 +1,6 @@
 
 class CameraControl
-	constructor: (@renderer) ->
+	constructor: (@game, @renderer) ->
 		@translate_speed = 300
 		@zoom_speed = 2
 		@center = new Vec2()

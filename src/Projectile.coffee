@@ -1,7 +1,7 @@
 
 class Projectile
 	@radius = 0.1
-	constructor: (@renderer, pos, vel) ->
+	constructor: (@game, @renderer, pos, vel) ->
 		@pos = new Vec2(pos.x, pos.y)
 		@vel = new Vec2(vel.x, vel.y)
 		renderer.add_obj_to_layer(@, RenderLayers.projectile)
@@ -31,7 +31,7 @@ class Projectile
 			@remove_projectile()
 
 	remove_projectile: ->
-		Game.remove_object(@)
+		@game.remove_object(@)
 		@renderer.remove_obj_from_layer(@, RenderLayers.projectile)
 
 	draw: (context) ->

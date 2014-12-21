@@ -2,7 +2,7 @@
 class Droid
 	@droids = [] # A list of all the droids in the scene
 	@radius = 1
-	constructor: (@renderer, @pos) ->
+	constructor: (@game, @renderer, @pos) ->
 		Droid.droids.push(@)
 		renderer.add_obj_to_layer(@, RenderLayers.droid)
 		@vel = new Vec2(0,0)
@@ -25,8 +25,8 @@ class Droid
 		pos = Vec2.add(@pos, direction)
 		vel = Vec2.add(@vel, Vec2.mul(direction, new Vec2(25,25)))
 		@force = Vec2.add(@force, Vec2.mul(direction, new Vec2(-100,-100)))
-		shell = new Projectile(@renderer, pos, vel)
-		Game.add_object(shell)
+		shell = new Projectile(@game, @renderer, pos, vel)
+		@game.add_object(shell)
 		@iface.fire_turret = false
 
 	update: ->
