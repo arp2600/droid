@@ -2,7 +2,7 @@
 class Droid
 	@droids = [] # A list of all the droids in the scene
 	@radius = 1
-	constructor: (@game, @renderer, @pos) ->
+	constructor: (@game, @renderer, @player, @pos) ->
 		Droid.droids.push(@)
 		renderer.add_obj_to_layer(@, RenderLayers.droid)
 		@vel = new Vec2(0,0)
@@ -83,7 +83,7 @@ class Droid
 	draw: (context) ->
 		context.lineWidth = 0.2
 		context.lineCap = "round"
-		context.strokeStyle = Colors.droid
+		context.strokeStyle = Colors.droid[@player]
 		context.fillStyle = Colors.background
 		context.beginPath()
 		context.arc 0, 0, Droid.radius, 0, 2*MathEx.pi

@@ -8,9 +8,9 @@ class window.Game
 		@objects = []
 		@objects.push(new FPSWidget(@, @renderer, new Vec2(0, @renderer.height - 20)))
 		@objects.push(new CameraControl(@, @renderer))
-		@objects.push(new Droid(@, @renderer, new Vec2(0, 0)))
-		@objects.push(new Droid(@, @renderer, new Vec2(0, 10)))
-		@objects.push(new Droid(@, @renderer, new Vec2(-5, 5)))
+		@objects.push(new Droid(@, @renderer, 0, new Vec2(0, 0)))
+		@objects.push(new Droid(@, @renderer, 0, new Vec2(0, 10)))
+		@objects.push(new Droid(@, @renderer, 1, new Vec2(-5, 5)))
 
 		@renderer.transforms[0].scale(0.025, 0.025)
 
